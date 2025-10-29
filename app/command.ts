@@ -9,6 +9,7 @@ interface Commands {
   mask?: Command;
   code?: Command;
   settings?: Command;
+  token?: Command;
 }
 
 export function useCommand(commands: Commands = {}) {

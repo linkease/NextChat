@@ -1487,6 +1487,20 @@ function _Chat() {
         console.error("[Command] failed to get settings from url: ", text);
       }
     },
+    token: (token) => {
+      if (!token) {
+        return;
+      }
+      accessStore.update((access) => (access.openaiApiKey = token));
+      accessStore.update((access) => (access.useCustomConfig = true));
+      // if (process && process?.env?.NEXT_PUBLIC_BASE_OPENAI_URL) {
+      //   accessStore.update((access) => (access.openaiUrl = process.env.NEXT_PUBLIC_BASE_OPENAI_URL!));
+      // }
+      // if (process && process?.env?.NEXT_PUBLIC_DEFAULT_MODEL) {
+      //   accessStore.update((access) => (access.customModels = process.env.NEXT_PUBLIC_DEFAULT_MODEL!))
+      //   accessStore.update((access) => (access.defaultModel = process.env.NEXT_PUBLIC_DEFAULT_MODEL!))
+      // }
+    },
   });
 
   // edit / insert message modal
