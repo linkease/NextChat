@@ -34,7 +34,7 @@ const isApp = getClientConfig()?.buildMode === "export";
 //   : process.env.NEXT_PUBLIC_BASE_OPENAI_URL
 //   ? process.env.NEXT_PUBLIC_BASE_OPENAI_URL
 //   : ApiPath.OpenAI;
-const DEFAULT_OPENAI_URL = process.env.NEXT_PUBLIC_BASE_OPENAI_URL;
+const DEFAULT_OPENAI_URL = "https://ai.koolcenter.com"; // process.env.NEXT_PUBLIC_BASE_OPENAI_URL;
 
 const DEFAULT_GOOGLE_URL = isApp ? GEMINI_BASE_URL : ApiPath.Google;
 
