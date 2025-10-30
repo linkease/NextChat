@@ -3,7 +3,6 @@ import {
   ServiceProvider,
   StoreKey,
   ApiPath,
-  OPENAI_BASE_URL,
   ANTHROPIC_BASE_URL,
   GEMINI_BASE_URL,
   BAIDU_BASE_URL,
@@ -30,11 +29,12 @@ let fetchState = 0; // 0 not fetch, 1 fetching, 2 done
 
 const isApp = getClientConfig()?.buildMode === "export";
 
-const DEFAULT_OPENAI_URL = isApp
-  ? OPENAI_BASE_URL
-  : process.env.NEXT_PUBLIC_BASE_OPENAI_URL
-  ? process.env.NEXT_PUBLIC_BASE_OPENAI_URL
-  : ApiPath.OpenAI;
+// const DEFAULT_OPENAI_URL = isApp
+//   ? OPENAI_BASE_URL
+//   : process.env.NEXT_PUBLIC_BASE_OPENAI_URL
+//   ? process.env.NEXT_PUBLIC_BASE_OPENAI_URL
+//   : ApiPath.OpenAI;
+const DEFAULT_OPENAI_URL = process.env.NEXT_PUBLIC_BASE_OPENAI_URL;
 
 const DEFAULT_GOOGLE_URL = isApp ? GEMINI_BASE_URL : ApiPath.Google;
 
