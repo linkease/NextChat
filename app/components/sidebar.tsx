@@ -32,6 +32,7 @@ import dynamic from "next/dynamic";
 import { Selector, showConfirm } from "./ui-lib";
 import clsx from "clsx";
 import { isMcpEnabled } from "../mcp/actions";
+import { getClientConfig } from "../config/client";
 
 const DISCOVERY = [
   { name: Locale.Plugin.Name, path: Path.Plugins },
@@ -243,6 +244,24 @@ export function SideBar(props: { className?: string }) {
     checkMcpStatus();
   }, []);
 
+  const clientCfg = getClientConfig() as any;
+  const appName = clientCfg?.appName ?? "NextChat";
+  const appSubTitle = clientCfg?.appSubTitle ?? "Build your own AI assistant.";
+  const appLink = clientCfg?.appLink as string | undefined;
+  const titleNode = appLink ? (
+    <a
+      className={styles["no-drag"]}
+      href={appLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={appName}
+    >
+      {appName}
+    </a>
+  ) : (
+    appName
+  );
+
   return (
     <SideBarContainer
       onDragStart={onDragStart}
@@ -250,8 +269,8 @@ export function SideBar(props: { className?: string }) {
       {...props}
     >
       <SideBarHeader
-        title="NextChat"
-        subTitle="Build your own AI assistant."
+        title={titleNode}
+        subTitle={appSubTitle}
         logo={<ChatGptIcon />}
         shouldNarrow={shouldNarrow}
       >

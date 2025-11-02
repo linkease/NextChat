@@ -42,6 +42,11 @@ export const getBuildConfig = () => {
     // expose basePath to client via <meta name="config">
     basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "",
     template: process.env.DEFAULT_INPUT_TEMPLATE ?? DEFAULT_INPUT_TEMPLATE,
+    // branding
+    appName: process.env.NEXT_PUBLIC_APP_NAME ?? "NextChat",
+    appSubTitle:
+      process.env.NEXT_PUBLIC_APP_SUBTITLE ?? "Build your own AI assistant.",
+    appLink: process.env.NEXT_PUBLIC_APP_LINK ?? "",
   };
 };
 

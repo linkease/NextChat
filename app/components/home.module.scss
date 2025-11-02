@@ -158,6 +158,10 @@
   font-size: 20px;
   font-weight: bold;
   animation: slide-in ease 0.3s;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 .sidebar-sub-title {
@@ -346,4 +350,9 @@
 
 .rtl-screen {
   direction: rtl;
+}
+
+// Prevent tauri drag region for clickable elements
+.no-drag {
+  -webkit-app-region: no-drag;
 }
