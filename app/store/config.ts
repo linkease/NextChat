@@ -74,8 +74,12 @@ export const DEFAULT_CONFIG = {
     sendMemory: true,
     historyMessageCount: 4,
     compressMessageLengthThreshold: 1000,
-    compressModel: "",
-    compressProviderName: "",
+    // Default summarize/compress model
+    // Keep chat default model independent (e.g., lightrag-qwen via env),
+    // but use qwen-plus-2025-07-28 for auto title/summary by default.
+    compressModel: "qwen-plus-2025-07-28",
+    // Use OpenAI-compatible client by default (works with custom base URL/proxy)
+    compressProviderName: "OpenAI",
     enableInjectSystemPrompts: true,
     template: config?.template ?? DEFAULT_INPUT_TEMPLATE,
     size: "1024x1024" as ModelSize,
@@ -195,7 +199,7 @@ export const useAppConfig = createPersistStore(
   }),
   {
     name: StoreKey.Config,
-    version: 4.1,
+    version: 4.2,
 
     merge(persistedState, currentState) {
       const state = persistedState as ChatConfig | undefined;
@@ -253,6 +257,18 @@ export const useAppConfig = createPersistStore(
           DEFAULT_CONFIG.modelConfig.compressModel;
         state.modelConfig.compressProviderName =
           DEFAULT_CONFIG.modelConfig.compressProviderName;
+      }
+
+      // Ensure summarize/compress model default is applied to existing states
+      if (version < 4.2) {
+        if (!state.modelConfig.compressModel) {
+          state.modelConfig.compressModel =
+            DEFAULT_CONFIG.modelConfig.compressModel;
+        }
+        if (!state.modelConfig.compressProviderName) {
+          state.modelConfig.compressProviderName =
+            DEFAULT_CONFIG.modelConfig.compressProviderName;
+        }
       }
 
       return state as any;
