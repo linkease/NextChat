@@ -39,6 +39,8 @@ export const getBuildConfig = () => {
     ...commitInfo,
     buildMode,
     isApp,
+    // expose basePath to client via <meta name="config">
+    basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "",
     template: process.env.DEFAULT_INPUT_TEMPLATE ?? DEFAULT_INPUT_TEMPLATE,
   };
 };

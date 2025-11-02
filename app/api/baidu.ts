@@ -4,6 +4,7 @@ import {
   ApiPath,
   ModelProvider,
   ServiceProvider,
+  BASE_PATH,
 } from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
 import { NextRequest, NextResponse } from "next/server";
@@ -54,7 +55,10 @@ export async function handle(
 async function request(req: NextRequest) {
   const controller = new AbortController();
 
-  let path = `${req.nextUrl.pathname}`.replaceAll(ApiPath.Baidu, "");
+  let path = `${req.nextUrl.pathname}`.replace(
+    `${BASE_PATH}${ApiPath.Baidu}`,
+    "",
+  );
 
   let baseUrl = serverConfig.baiduUrl || BAIDU_BASE_URL;
 

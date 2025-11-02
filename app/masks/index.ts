@@ -23,7 +23,16 @@ export const BUILTIN_MASKS: BuiltinMask[] = [];
 
 if (typeof window != "undefined") {
   // run in browser skip in next server
-  fetch("/masks.json")
+  const basePath = (
+    document.head.querySelector("meta[name='config']") as HTMLMetaElement
+  )?.content
+    ? JSON.parse(
+        (document.head.querySelector("meta[name='config']") as HTMLMetaElement)
+          .content,
+      )?.basePath || ""
+    : "";
+  const masksUrl = `${basePath}/masks.json`;
+  fetch(masksUrl)
     .then((res) => res.json())
     .catch((error) => {
       console.error("[Fetch] failed to fetch masks", error);

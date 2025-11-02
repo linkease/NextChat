@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSideConfig } from "@/app/config/server";
-import { ModelProvider, STABILITY_BASE_URL } from "@/app/constant";
+import {
+  ModelProvider,
+  STABILITY_BASE_URL,
+  BASE_PATH,
+  ApiPath,
+} from "@/app/constant";
 import { auth } from "@/app/api/auth";
 
 export async function handle(
@@ -27,7 +32,11 @@ export async function handle(
     baseUrl = baseUrl.slice(0, -1);
   }
 
-  let path = `${req.nextUrl.pathname}`.replaceAll("/api/stability/", "");
+  // remove local prefix including base path
+  let path = `${req.nextUrl.pathname}`.replace(
+    `${BASE_PATH}${ApiPath.Stability}/`,
+    "",
+  );
 
   console.log("[Stability Proxy] ", path);
   console.log("[Stability Base Url]", baseUrl);

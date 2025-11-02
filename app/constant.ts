@@ -38,7 +38,22 @@ export const SILICONFLOW_BASE_URL = "https://api.siliconflow.cn";
 
 export const AI302_BASE_URL = "https://api.302.ai";
 
-export const CACHE_URL_PREFIX = "/api/cache";
+import { getClientConfig } from "./config/client";
+
+// basePath is build/runtime configurable and may be empty string
+export const BASE_PATH: string = (() => {
+  // prefer client-provided meta when in browser
+  if (typeof document !== "undefined") {
+    const cfg = getClientConfig();
+    const p = (cfg as any)?.basePath || "";
+    return p.endsWith("/") && p !== "/" ? p.slice(0, -1) : p;
+  }
+  // server/SSR path from env baked into build
+  const p = process.env.NEXT_PUBLIC_BASE_PATH || process.env.BASE_PATH || "";
+  return p && p !== "/" && p.endsWith("/") ? p.slice(0, -1) : p;
+})();
+
+export const CACHE_URL_PREFIX = `${BASE_PATH}/api/cache`;
 export const UPLOAD_URL = `${CACHE_URL_PREFIX}/upload`;
 
 export enum Path {
@@ -493,7 +508,7 @@ export const VISION_MODEL_REGEXES = [
   /o3/,
   /o4-mini/,
   /grok-4/i,
-  /gpt-5/
+  /gpt-5/,
 ];
 
 export const EXCLUDE_VISION_MODEL_REGEXES = [/claude-3-5-haiku-20241022/];
@@ -561,7 +576,7 @@ const googleModels = [
   "gemini-2.0-pro-exp",
   "gemini-2.0-pro-exp-02-05",
   "gemini-2.5-pro-preview-06-05",
-  "gemini-2.5-pro"
+  "gemini-2.5-pro",
 ];
 
 const anthropicModels = [

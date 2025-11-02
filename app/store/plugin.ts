@@ -54,7 +54,8 @@ export const FunctionToolService = {
     const authLocation = plugin?.authLocation || "header";
     const definition = yaml.load(plugin.content) as any;
     const serverURL = definition?.servers?.[0]?.url;
-    const baseURL = !isApp ? "/api/proxy" : serverURL;
+    const basePath = (getClientConfig() as any)?.basePath || "";
+    const baseURL = !isApp ? `${basePath}/api/proxy` : serverURL;
     const headers: Record<string, string | undefined> = {
       "X-Base-URL": !isApp ? serverURL : undefined,
     };
@@ -236,7 +237,8 @@ export const usePluginStore = createPersistStore(
         return;
       }
 
-      fetch("./plugins.json")
+      const basePath = (getClientConfig() as any)?.basePath || "";
+      fetch(`${basePath}/plugins.json`)
         .then((res) => res.json())
         .then((res) => {
           Promise.all(

@@ -33,6 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const serverConfig = getServerSideConfig();
+  const basePath =
+    process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "";
 
   return (
     <html lang="en">
@@ -44,10 +46,10 @@ export default function RootLayout({
         />
         <link
           rel="manifest"
-          href="/site.webmanifest"
+          href={`${basePath}/site.webmanifest`}
           crossOrigin="use-credentials"
         ></link>
-        <script src="/serviceWorkerRegister.js" defer></script>
+        <script src={`${basePath}/serviceWorkerRegister.js`} defer></script>
       </head>
       <body>
         {children}

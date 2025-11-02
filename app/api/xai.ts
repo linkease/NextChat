@@ -4,6 +4,7 @@ import {
   ApiPath,
   ModelProvider,
   ServiceProvider,
+  BASE_PATH,
 } from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
 import { NextRequest, NextResponse } from "next/server";
@@ -42,7 +43,10 @@ async function request(req: NextRequest) {
   const controller = new AbortController();
 
   // alibaba use base url or just remove the path
-  let path = `${req.nextUrl.pathname}`.replaceAll(ApiPath.XAI, "");
+  let path = `${req.nextUrl.pathname}`.replace(
+    `${BASE_PATH}${ApiPath.XAI}`,
+    "",
+  );
 
   let baseUrl = serverConfig.xaiUrl || XAI_BASE_URL;
 

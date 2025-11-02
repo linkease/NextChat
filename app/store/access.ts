@@ -34,7 +34,7 @@ const isApp = getClientConfig()?.buildMode === "export";
 //   : process.env.NEXT_PUBLIC_BASE_OPENAI_URL
 //   ? process.env.NEXT_PUBLIC_BASE_OPENAI_URL
 //   : ApiPath.OpenAI;
-const DEFAULT_OPENAI_URL = "https://ai.koolcenter.com"; // process.env.NEXT_PUBLIC_BASE_OPENAI_URL;
+const DEFAULT_OPENAI_URL = process.env.NEXT_PUBLIC_BASE_OPENAI_URL;
 
 const DEFAULT_GOOGLE_URL = isApp ? GEMINI_BASE_URL : ApiPath.Google;
 
@@ -256,7 +256,8 @@ export const useAccessStore = createPersistStore(
     fetch() {
       if (fetchState > 0 || getClientConfig()?.buildMode === "export") return;
       fetchState = 1;
-      fetch("/api/config", {
+      const base = (getClientConfig() as any)?.basePath || "";
+      fetch(`${base}/api/config`, {
         method: "post",
         body: null,
         headers: {

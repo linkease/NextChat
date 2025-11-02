@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./auth";
 import { getServerSideConfig } from "@/app/config/server";
-import { ApiPath, GEMINI_BASE_URL, ModelProvider } from "@/app/constant";
+import {
+  ApiPath,
+  GEMINI_BASE_URL,
+  ModelProvider,
+  BASE_PATH,
+} from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
 
 const serverConfig = getServerSideConfig();
@@ -73,7 +78,10 @@ async function request(req: NextRequest, apiKey: string) {
 
   let baseUrl = serverConfig.googleUrl || GEMINI_BASE_URL;
 
-  let path = `${req.nextUrl.pathname}`.replaceAll(ApiPath.Google, "");
+  let path = `${req.nextUrl.pathname}`.replace(
+    `${BASE_PATH}${ApiPath.Google}`,
+    "",
+  );
 
   if (!baseUrl.startsWith("http")) {
     baseUrl = `https://${baseUrl}`;

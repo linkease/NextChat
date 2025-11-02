@@ -5,6 +5,7 @@ import {
   ApiPath,
   ServiceProvider,
   ModelProvider,
+  BASE_PATH,
 } from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
 import { NextRequest, NextResponse } from "next/server";
@@ -67,7 +68,10 @@ async function request(req: NextRequest) {
     serverConfig.anthropicApiKey ||
     "";
 
-  let path = `${req.nextUrl.pathname}`.replaceAll(ApiPath.Anthropic, "");
+  let path = `${req.nextUrl.pathname}`.replace(
+    `${BASE_PATH}${ApiPath.Anthropic}`,
+    "",
+  );
 
   let baseUrl =
     serverConfig.anthropicUrl || serverConfig.baseUrl || ANTHROPIC_BASE_URL;

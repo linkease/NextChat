@@ -19,6 +19,11 @@ ENV OPENAI_API_KEY=""
 ENV GOOGLE_API_KEY=""
 ENV CODE=""
 
+# optional: build the app under a sub-path, e.g. /chat
+ARG BASE_PATH
+ENV BASE_PATH=${BASE_PATH}
+ENV NEXT_PUBLIC_BASE_PATH=${BASE_PATH}
+
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

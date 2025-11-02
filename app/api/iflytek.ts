@@ -5,6 +5,7 @@ import {
   ModelProvider,
   ServiceProvider,
 } from "@/app/constant";
+import { BASE_PATH } from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/app/api/auth";
@@ -48,7 +49,10 @@ async function request(req: NextRequest) {
   let baseUrl = serverConfig.iflytekUrl || IFLYTEK_BASE_URL;
 
   if (!baseUrl.startsWith("http")) {
-    baseUrl = `https://${baseUrl}`;
+    let path = `${req.nextUrl.pathname}`.replace(
+      `${BASE_PATH}${ApiPath.Iflytek}`,
+      "",
+    );
   }
 
   if (baseUrl.endsWith("/")) {

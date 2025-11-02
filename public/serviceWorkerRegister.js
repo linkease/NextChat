@@ -1,6 +1,20 @@
 if ('serviceWorker' in navigator) {
+  function getBasePath() {
+    try {
+      const meta = document.head.querySelector("meta[name='config']");
+      if (!meta) return '';
+      const cfg = JSON.parse(meta.content || '{}');
+      return (cfg.basePath || '').replace(/\/$/, '');
+    } catch (e) {
+      return '';
+    }
+  }
+
   window.addEventListener('DOMContentLoaded', function () {
-    navigator.serviceWorker.register('/serviceWorker.js').then(function (registration) {
+    const basePath = getBasePath();
+    const swUrl = `${basePath}/serviceWorker.js`;
+    const scope = `${basePath || ''}/`;
+    navigator.serviceWorker.register(swUrl, { scope }).then(function (registration) {
       console.log('ServiceWorker registration successful with scope: ', registration.scope);
       const sw = registration.installing || registration.waiting
       if (sw) {

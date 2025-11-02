@@ -6,6 +6,22 @@ console.log("[Next] build mode", mode);
 const disableChunk = !!process.env.DISABLE_CHUNK || mode === "export";
 console.log("[Next] build with chunk: ", !disableChunk);
 
+// normalize basePath from env (build-time)
+function normalizeBasePath(p) {
+  if (!p) return "";
+  // ensure leading slash and no trailing slash
+  if (!p.startsWith("/")) p = "/" + p;
+  if (p !== "/" && p.endsWith("/")) p = p.slice(0, -1);
+  return p;
+}
+
+const envBasePath = normalizeBasePath(
+  process.env.BASE_PATH || process.env.NEXT_PUBLIC_BASE_PATH || "",
+);
+if (envBasePath) {
+  console.log("[Next] basePath:", envBasePath);
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack(config) {
@@ -32,6 +48,12 @@ const nextConfig = {
   },
   experimental: {
     forceSwcTransforms: true,
+  },
+  // mount app under sub-path when configured
+  basePath: envBasePath || undefined,
+  // expose to client at build-time for runtime usage
+  env: {
+    NEXT_PUBLIC_BASE_PATH: envBasePath || "",
   },
 };
 

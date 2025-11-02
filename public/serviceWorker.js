@@ -1,5 +1,8 @@
 const CHATGPT_NEXT_WEB_CACHE = "chatgpt-next-web-cache";
 const CHATGPT_NEXT_WEB_FILE_CACHE = "chatgpt-next-web-file";
+// derive base path from registration scope (ends with trailing slash)
+const SCOPE = (self.registration && self.registration.scope) || self.location.href;
+const BASE_PATH = new URL(SCOPE).pathname.replace(/\/$/, "");
 let a="useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";let nanoid=(e=21)=>{let t="",r=crypto.getRandomValues(new Uint8Array(e));for(let n=0;n<e;n++)t+=a[63&r[n]];return t};
 
 self.addEventListener("activate", function (event) {
@@ -26,7 +29,7 @@ async function upload(request, url) {
   if (ext === 'blob') {
     ext = file.type.split('/').pop()
   }
-  const fileUrl = `${url.origin}/api/cache/${nanoid()}.${ext}`
+  const fileUrl = `${url.origin}${BASE_PATH}/api/cache/${nanoid()}.${ext}`
   // console.debug('file', file, fileUrl, request)
   const cache = await caches.open(CHATGPT_NEXT_WEB_FILE_CACHE)
   await cache.put(new Request(fileUrl), new Response(file, {
@@ -48,7 +51,7 @@ async function remove(request, url) {
 
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
-  if (/^\/api\/cache/.test(url.pathname)) {
+  if (url.pathname.startsWith(`${BASE_PATH}/api/cache`)) {
     if ('GET' == e.request.method) {
       e.respondWith(caches.match(e.request))
     }

@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import { StoreKey } from "../constant";
 import { getLang } from "../locales";
 import { createPersistStore } from "../utils/store";
+import { getClientConfig } from "../config/client";
 
 export interface Prompt {
   id: string;
@@ -152,7 +153,8 @@ export const usePromptStore = createPersistStore(
         return;
       }
 
-      const PROMPT_URL = "./prompts.json";
+      const basePath = (getClientConfig() as any)?.basePath || "";
+      const PROMPT_URL = `${basePath}/prompts.json`;
 
       type PromptList = Array<[string, string]>;
 

@@ -5,6 +5,7 @@ import {
   ModelProvider,
   ServiceProvider,
 } from "@/app/constant";
+import { BASE_PATH } from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/app/api/auth";
@@ -42,7 +43,10 @@ async function request(req: NextRequest) {
   const controller = new AbortController();
 
   // alibaba use base url or just remove the path
-  let path = `${req.nextUrl.pathname}`.replaceAll(ApiPath.SiliconFlow, "");
+  let path = `${req.nextUrl.pathname}`.replace(
+    `${BASE_PATH}${ApiPath.SiliconFlow}`,
+    "",
+  );
 
   let baseUrl = serverConfig.siliconFlowUrl || SILICONFLOW_BASE_URL;
 
