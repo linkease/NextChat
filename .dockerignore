@@ -51,7 +51,7 @@ typings
 .env.test
 
 # local env files
-.env*.local
+#.env*.local
 
 # Next.js build output
 .next
