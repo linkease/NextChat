@@ -19,16 +19,16 @@ ENV OPENAI_API_KEY=""
 ENV GOOGLE_API_KEY=""
 ENV CODE=""
 
-# optional: build the app under a sub-path, e.g. /chat
-ARG BASE_PATH
-ENV BASE_PATH=${BASE_PATH}
-ENV NEXT_PUBLIC_BASE_PATH=${BASE_PATH}
-
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN yarn build
+RUN BASE_PATH="/chat" \
+    NEXT_PUBLIC_BASE_PATH="/chat" \
+    CUSTOM_MODELS="-all,+lightrag-qwen,+qwen-plus-2025-07-28" \
+    NEXT_PUBLIC_DEFAULT_MODEL="lightrag-qwen" \
+    NEXT_PUBLIC_BASE_OPENAI_URL="https://ai.koolcenter.com/rag" \
+    yarn build
 
 FROM base AS runner
 WORKDIR /app
