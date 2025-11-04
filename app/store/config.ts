@@ -79,7 +79,7 @@ export const DEFAULT_CONFIG = {
     // but use qwen-plus-2025-07-28 for auto title/summary by default.
     compressModel: "qwen-plus-2025-07-28",
     // Use OpenAI-compatible client by default (works with custom base URL/proxy)
-    compressProviderName: "OpenAI",
+    compressProviderName: "qwen-plus-2025-07-28",
     enableInjectSystemPrompts: true,
     template: config?.template ?? DEFAULT_INPUT_TEMPLATE,
     size: "1024x1024" as ModelSize,
