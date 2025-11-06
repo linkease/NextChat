@@ -234,10 +234,83 @@ export function useLoadData() {
   }, []);
 }
 
+// 登录状态检查和弹窗组件
+function useLoginStatusCheck() {
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  // 检查用户登录状态
+  const checkLoginStatus = async () => {
+    try {
+      const response = await fetch("https://ai.koolcenter.com/api/kcai/token");
+      const data = await response.json();
+
+      // 如果接口返回未登录状态，显示弹窗
+      if (!data.success) {
+        setShowLoginModal(true);
+      }
+    } catch (error) {
+      console.error("检查登录状态失败:", error);
+      // 出错时默认认为未登录，显示弹窗
+      setShowLoginModal(true);
+    }
+  };
+
+  // 确认按钮处理函数 - 跳转到登录页面
+  const handleConfirm = () => {
+    window.location.href = "https://ai.koolcenter.com/auth/oauth2_basic";
+  };
+
+  // 取消按钮处理函数 - 隐藏弹窗
+  const handleCancel = () => {
+    setShowLoginModal(false);
+  };
+
+  // 页面加载完成后检查登录状态
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
+  return { showLoginModal, handleConfirm, handleCancel };
+}
+
+// 登录状态弹窗组件
+function LoginStatusModal({
+  show,
+  onConfirm,
+  onCancel,
+}: {
+  show: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  if (!show) return null;
+
+  return (
+    <div className={styles["modal-overlay"]}>
+      <div className={styles["modal-content"]}>
+        <h3 className={styles["modal-title"]}>提示</h3>
+        <p className={styles["modal-message"]}>当前会话已过期，请重新登录！</p>
+        <div className={styles["modal-buttons"]}>
+          <button className={styles["modal-button-cancel"]} onClick={onCancel}>
+            取消
+          </button>
+          <button
+            className={styles["modal-button-confirm"]}
+            onClick={onConfirm}
+          >
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Home() {
   useSwitchTheme();
   useLoadData();
   useHtmlLang();
+  const { showLoginModal, handleConfirm, handleCancel } = useLoginStatusCheck();
 
   useEffect(() => {
     console.log("[Config] got config from build time", getClientConfig());
@@ -267,6 +340,11 @@ export function Home() {
       <Router>
         <Screen />
       </Router>
+      <LoginStatusModal
+        show={showLoginModal}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
     </ErrorBoundary>
   );
 }
