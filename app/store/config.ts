@@ -76,10 +76,10 @@ export const DEFAULT_CONFIG = {
     compressMessageLengthThreshold: 1000,
     // Default summarize/compress model
     // Keep chat default model independent (e.g., lightrag-qwen via env),
-    // but use qwen-plus-2025-07-28 for auto title/summary by default.
-    compressModel: "qwen-plus-2025-07-28",
+    // but use qwen-plus-latest for auto title/summary by default.
+    compressModel: "qwen-plus-latest",
     // Use OpenAI-compatible client by default (works with custom base URL/proxy)
-    compressProviderName: "qwen-plus-2025-07-28",
+    compressProviderName: "qwen-plus-latest",
     enableInjectSystemPrompts: true,
     template: config?.template ?? DEFAULT_INPUT_TEMPLATE,
     size: "1024x1024" as ModelSize,

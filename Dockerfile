@@ -25,7 +25,7 @@ COPY . .
 
 RUN BASE_PATH="/chat" \
     NEXT_PUBLIC_BASE_PATH="/chat" \
-    CUSTOM_MODELS="-all,+lightrag-qwen,+qwen-plus-2025-07-28" \
+    CUSTOM_MODELS="-all,+lightrag-qwen,+qwen-plus-latest,+qwen-plus,+qwen-plus-2025-07-28" \
     NEXT_PUBLIC_DEFAULT_MODEL="lightrag-qwen" \
     NEXT_PUBLIC_BASE_OPENAI_URL="https://ai.koolcenter.com/rag" \
     HIDE_USER_API_KEY=1 \
