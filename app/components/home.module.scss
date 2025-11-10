@@ -98,6 +98,7 @@
   width: var(--window-content-width);
   height: 100%;
   display: flex;
+  flex-direction: column;
 }
 
 /* 弹窗样式 */
